@@ -1,5 +1,5 @@
 ==============
-URRobot
+Dashboard
 ==============
 
 .. currentmodule:: ur_remote.Dashboard
