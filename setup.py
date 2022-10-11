@@ -20,7 +20,7 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://ur-remote.readthedocs.io/",
-    author="Joffrey Bienvenu",
+    author="Edy Mariano",
     author_email="edy.mariano1@gmail.com",
     license="MIT",
     classifiers=[
@@ -29,6 +29,6 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Operating System :: OS Independent"
     ],
-    packages=["ur-remote"],
+    packages=["ur_remote"],
     include_package_data=True,
 )
