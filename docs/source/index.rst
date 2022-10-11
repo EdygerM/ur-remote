@@ -11,6 +11,8 @@ Welcome to ur-remote's documentation!
    :caption: Contents:
 
    api/URRobot
+   api/Dashboard
+   api/Primary
 
 
 Indices and tables
