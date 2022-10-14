@@ -19,6 +19,7 @@ class Dashboard:
     def connect(self):
         """
         Connect to the Universal Robot dashboard Server
+
         :return: The status of the connection
         :rtype: string
         """
@@ -33,9 +34,7 @@ class Dashboard:
         :param programName: name of the .urp program (without the .urp)
         :type programName: string
 
-        :return: Returns when both program and associated installation has loaded (or failed).
-        The load command fails if the associated installation requires confirmation of safety.
-        The return value in this case will be 'Error while loading program.
+        :return: Returns when both program and associated installation has loaded (or failed). The load command fails if the associated installation requires confirmation of safety. The return value in this case will be 'Error while loading program.
         :rtype: string
         """
 
