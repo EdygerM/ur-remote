@@ -33,10 +33,78 @@ class Dashboard:
         :param programName: name of the .urp program (without the .urp)
         :type programName: string
 
-        :return:
+        :return: Returns when both program and associated installation has loaded (or failed).
+        The load command fails if the associated installation requires confirmation of safety.
+        The return value in this case will be 'Error while loading program.
         :rtype: string
         """
+
         call = "load " + programName + ".urp\n"
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+    def play(self):
+        """
+        Play the program loaded
+
+        :return: Returns failure if the program fails to start.
+        :rtype: string
+        """
+
+        call = "play"
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+    def stop(self):
+        """
+        Stop the program loaded
+
+        :return: Returns failure if the program fails to stop.
+        :rtype: string
+        """
+
+        call = "stop"
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+    def pause(self):
+        """
+        Pause the program loaded
+
+        :return: Returns failure if the program fails to pause.
+        :rtype: string
+        """
+
+        call = "pause"
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+    def quit(self):
+        """
+        Closes connection
+
+        :return: "Disconnected"
+        :rtype: string
+        """
+
+        call = "quit"
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+    def shutdown(self):
+        """
+        Shuts down and turns off robot and controller.
+
+        :return: "Shutting down"
+        :rtype: string
+        """
+
+        call = "shutdown"
         self.server.sendall(call.encode())
 
         return self.server.recv(1024)
