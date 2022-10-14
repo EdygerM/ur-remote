@@ -136,7 +136,7 @@ class Dashboard:
 
         call = "running"
         self.server.sendall(call.encode())
-        message = self.server.recv(1024);
+        message = self.server.recv(1024)
 
         robotMode = message.decode().replace('Robotmode:', '')
 
