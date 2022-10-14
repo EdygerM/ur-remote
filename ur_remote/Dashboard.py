@@ -108,3 +108,36 @@ class Dashboard:
         self.server.sendall(call.encode())
 
         return self.server.recv(1024)
+
+    def isRunning(self):
+        """
+        Execution state enquiry
+
+        :return: running state
+        :rtype: boolean
+        """
+
+        call = "running"
+        self.server.sendall(call.encode())
+        message = self.server.recv(1024)
+
+        if message.decode() == "Program running: true":
+            return True
+        else:
+            return False
+
+    def getRobotMode(self):
+        """
+        Robot mode enquiry
+
+        :return: NO_CONTROLLER, DISCONNECTED, CONFIRM_SAFETY, BOOTING, POWER_OFF, POWER_ON, IDLE, BACKDRIVE, RUNNING
+        :rtype: string
+        """
+
+        call = "running"
+        self.server.sendall(call.encode())
+        message = self.server.recv(1024);
+
+        robotMode = message.decode().replace('Robotmode:', '')
+
+        return robotMode
