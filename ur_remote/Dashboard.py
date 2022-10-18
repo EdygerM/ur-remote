@@ -16,6 +16,18 @@ class Dashboard:
         self.ipAddress = ipAddress
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+    def __sendCommand(self, command):
+        """
+        Send a command to the client, then read its feedback
+
+        :return: The message sent by the client depending on the command
+        :rtype: string
+        """
+        self.server.sendall(command.encode())
+        message = self.server.recv(1024)
+
+        return message.decode()
+
     def connect(self):
         """
         Connect to the Universal Robot dashboard Server
@@ -217,6 +229,32 @@ class Dashboard:
             return True
         else:
             return False
+
+    def getProgramState(self):
+        """
+        Program State enquiry
+
+        :return: STOPPED, PLAYING, PAUSED
+        :rtype: string
+        """
+
+        call = "programState"
+        self.server.sendall(call.encode())
+        message = self.server.recv(1024)
+
+        return message.decode()
+
+    def getPolyscopeVersion(self):
+        """
+        :return: Version of the Polyscope software
+        :rtype: string
+        """
+
+        call = "PolyscopeVersion"
+        self.server.sendall(call.encode())
+        message = self.server.recv(1024)
+
+        return message.decode()
 
 
 
