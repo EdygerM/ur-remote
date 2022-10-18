@@ -1,4 +1,9 @@
-import socket, struct
+import socket
+import struct
+from ur_remote.PrimaryEnum import DataFormat
+from ur_remote.PrimaryEnum import SizeFormat
+from ur_remote.PrimaryEnum import MessageType
+
 
 PRIMARY_PORT = 30011
 
@@ -16,6 +21,7 @@ class Primary:
     def __init__(self, ipAddress):
         self.ipAddress = ipAddress
         self.server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.offset = 0
 
     def connect(self):
         """
@@ -29,61 +35,44 @@ class Primary:
 
         return self.server.recv(1024)
 
+    def __unpack(self, data, dataType, offset):
+        unpacked_data = struct.unpack_from('!' + dataType, data, self.offset)[0]
+        self.offset += offset
+        return unpacked_data
+
     def readPort(self):
         """
 
         """
+
         data = self.server.recv(4096)
-        offset = 0
+        self.offset = 0
+
         if data:
-            messageSize = struct.unpack_from('!i', data)[0]
-            offset += 4
-            messageType = struct.unpack_from('!B', data, offset)[0]
-            offset += 1
-            if messageType == 20:
-                timestamp = struct.unpack_from('!Q', data, offset)[0]
-                offset += 8
-                source = struct.unpack_from('!c', data, offset)[0]
-                offset += 1
-                robotMessageType = struct.unpack_from('!c', data, offset)[0]
-                offset += 1
+            messageSize = self.__unpack(data, DataFormat.INT, SizeFormat.INT)
+            messageType = self.__unpack(data, DataFormat.UNSIGNED_CHAR, SizeFormat.UNSIGNED_CHAR)
+            if messageType == MessageType.MESSAGE_TYPE_ROBOT_MESSAGE:
+                timestamp = self.__unpack(data, DataFormat.UNSIGNED_LONG_LONG, SizeFormat.UNSIGNED_LONG_LONG)
+                source = self.__unpack(data, DataFormat.UNSIGNED_CHAR, SizeFormat.UNSIGNED_CHAR)
+                robotMessageType = self.__unpack(data, DataFormat.UNSIGNED_CHAR, SizeFormat.UNSIGNED_CHAR)
                 print(ord(robotMessageType))
                 if ord(robotMessageType) == 9:
-                    requestId = struct.unpack_from('!I', data, offset)[0]
-                    offset += 4
-                    requestedType = struct.unpack_from('!I', data, offset)[0]
-                    offset += 4
-                    warning = struct.unpack_from('!?', data, offset)[0]
-                    offset += 1
-                    error = struct.unpack_from('!?', data, offset)[0]
-                    offset += 1
-                    blocking = struct.unpack_from('!?', data, offset)[0]
-                    offset += 1
-                    popupMessageTitleSize = struct.unpack_from('!B', data, offset)[0]
-                    offset += 1
+                    requestId = self.__unpack(data, DataFormat.UNSIGNED_INT, SizeFormat.UNSIGNED_INT)
+                    requestedType = self.__unpack(data, DataFormat.UNSIGNED_INT, SizeFormat.UNSIGNED_INT)
+                    warning = self.__unpack(data, DataFormat.BOOLEAN, SizeFormat.BOOLEAN)
+                    error = self.__unpack(data, DataFormat.BOOLEAN, SizeFormat.BOOLEAN)
+                    blocking = self.__unpack(data, DataFormat.BOOLEAN, SizeFormat.BOOLEAN)
+                    popupMessageTitleSize = self.__unpack(data, DataFormat.UNSIGNED_CHAR, SizeFormat.UNSIGNED_CHAR)
                     popupMessageTitle = struct.unpack_from('!%ds' % popupMessageTitleSize, data, offset)[0]
-                    offset += popupMessageTitleSize
+                    self.offset += popupMessageTitleSize
                     print(popupMessageTitle)
                     popupTextMessage = struct.unpack_from('!4s', data, offset)[0]
                     print(popupTextMessage)
                 elif ord(robotMessageType) == 7:
-                    robotMessageCode = struct.unpack_from('!i', data, offset)[0]
-                    offset += 4
-                    robotMessageArgument = struct.unpack_from('!i', data, offset)[0]
-                    offset += 4
-                    robotMessageTitleSize = struct.unpack_from('!B', data, offset)[0]
-                    offset += 1
+                    robotMessageCode = self.__unpack(data, DataFormat.INT, SizeFormat.INT)
+                    robotMessageArgument = self.__unpack(data, DataFormat.INT, SizeFormat.INT)
+                    robotMessageTitleSize = self.__unpack(data, DataFormat.UNSIGNED_CHAR, SizeFormat.UNSIGNED_CHAR)
                     robotMessageTitle = struct.unpack_from('!%ds' % robotMessageTitleSize, data, offset)[0]
-                    offset += robotMessageTitleSize
                     print(robotMessageTitle)
                     keyTextMessage = struct.unpack_from('!8s', data, offset)[0]
                     print(keyTextMessage)
-
-
-
-
-
-
-
-
-
