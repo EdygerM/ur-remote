@@ -269,6 +269,18 @@ class Dashboard:
 
         return self.__sendCommand("safetystatus")
 
+    def UnlockProtectiveStop(self):
+        """
+        Closes the current popup and unlocks protective stop. The unlock protective stop command fails if less than 5 seconds has passed since the protective stop occurred.
+
+        :return: unlock status
+        :rtype: string
+        """
+
+        return self.__sendCommand("unlock protective stop")
+
+
+
 
 
 
