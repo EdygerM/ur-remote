@@ -8,6 +8,7 @@ class Dashboard:
     Create a communication using TCP/IP with the dashboard server interface of a Universal Robot e-series.
     Based on https://www.universal-robots.com/articles/ur/dashboard-server-e-series-port-29999/ as of 07.10.22
     UR robot needs to be set in remote mode on the polyscope application.
+
     :param ipAddress: the ip address of the Universal Robot.
     :type ipAddress: string
     """
@@ -121,8 +122,6 @@ class Dashboard:
 
     def getRobotMode(self):
         """
-        Robot mode enquiry
-
         :return: NO_CONTROLLER, DISCONNECTED, CONFIRM_SAFETY, BOOTING, POWER_OFF, POWER_ON, IDLE, BACKDRIVE, RUNNING
         :rtype: string
         """
@@ -131,8 +130,6 @@ class Dashboard:
 
     def getLoadedProgram(self):
         """
-        Which program is loaded
-
         :return: path to loaded program file
         :rtype: string
         """
@@ -182,9 +179,7 @@ class Dashboard:
 
     def isProgramSaved(self):
         """
-        Returns the save state of the active program
-
-        :return: save state
+        :return: save state of the active program
         :rtype: boolean
         """
 
@@ -195,8 +190,6 @@ class Dashboard:
 
     def getProgramState(self):
         """
-        Program State enquiry
-
         :return: STOPPED, PLAYING, PAUSED
         :rtype: string
         """
@@ -223,6 +216,53 @@ class Dashboard:
         """
 
         return self.__sendCommand("set operational mode " + operationalMode)
+
+    def getOperationalMode(self):
+        """
+        Returns the operational mode as MANUAL or AUTOMATIC if the password has been set for Mode in Settings. Returns NONE if the password has not been set.
+
+        :return: MANUAL, AUTOMATIC, NONE
+        :rtype: string
+        """
+
+        return self.__sendCommand("get operational mode")
+
+    def clearOperationalMode(self):
+        """
+        If this function is called the operational mode can again be changed from PolyScope, and the user password is enabled.
+
+        :return: "operational mode is no longer controlled by Dashboard Server"
+        :rtype: string
+        """
+
+        return self.__sendCommand("clear operational mode")
+
+    def powerOnRobotArm(self):
+        """
+        :return: "Powering on"
+        :rtype: string
+        """
+
+        return self.__sendCommand("power on")
+
+    def powerOffRobotArm(self):
+        """
+        :return: "Powering on"
+        :rtype: string
+        """
+
+        return self.__sendCommand("power off")
+
+    def brakeRelease(self):
+        """
+        :return: "Brake releasing"
+        :rtype: string
+        """
+
+        return self.__sendCommand("brake release")
+
+
+
 
 
 
