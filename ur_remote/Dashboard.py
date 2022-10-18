@@ -211,6 +211,19 @@ class Dashboard:
 
         return self.__sendCommand("PolyscopeVersion")
 
+    def setOperationalMode(self, operationalMode):
+        """
+        Controls the operational mode. See User manual for details. Warning: This functionality is intended for using e.g. Ethernet based Key Card Readers to switch operational modes. The device for switching operational mode should be placed in vicinity to the robot.
+
+        :param operationalMode: manual or automatic
+        :type operationalMode: string
+
+        :return: operational mode status
+        :rtype: string
+        """
+
+        return self.__sendCommand("set operational mode " + operationalMode)
+
 
 
 
