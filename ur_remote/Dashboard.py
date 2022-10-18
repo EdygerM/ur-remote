@@ -20,6 +20,9 @@ class Dashboard:
         """
         Send a command to the client, then read its feedback
 
+        :param command: command sent to the Dashboard Server
+        :type command: string
+
         :return: The message sent by the client depending on the command
         :rtype: string
         """
@@ -51,10 +54,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "load " + programName + ".urp\n"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("load " + programName + ".urp\n")
 
     def play(self):
         """
@@ -64,10 +64,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "play"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("play")
 
     def stop(self):
         """
@@ -77,10 +74,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "stop"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("stop")
 
     def pause(self):
         """
@@ -90,10 +84,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "pause"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("pause")
 
     def quit(self):
         """
@@ -103,10 +94,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "quit"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("quit")
 
     def shutdown(self):
         """
@@ -116,10 +104,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "shutdown"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("shutdown")
 
     def isRunning(self):
         """
@@ -129,11 +114,7 @@ class Dashboard:
         :rtype: boolean
         """
 
-        call = "running"
-        self.server.sendall(call.encode())
-        message = self.server.recv(1024)
-
-        if message.decode() == "Program running: true":
+        if self.__sendCommand("running") == "Program running: true":
             return True
         else:
             return False
