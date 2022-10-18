@@ -165,7 +165,7 @@ class Dashboard:
         :rtype: string
         """
 
-        self.__sendCommand("close popup")
+        return self.__sendCommand("close popup")
 
     def addToLog(self, logMessage):
         """
@@ -201,11 +201,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "programState"
-        self.server.sendall(call.encode())
-        message = self.server.recv(1024)
-
-        return message.decode()
+        return self.__sendCommand("programState")
 
     def getPolyscopeVersion(self):
         """
@@ -213,11 +209,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "PolyscopeVersion"
-        self.server.sendall(call.encode())
-        message = self.server.recv(1024)
-
-        return message.decode()
+        return self.__sendCommand("PolyscopeVersion")
 
 
 
