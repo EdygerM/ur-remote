@@ -172,6 +172,20 @@ class Dashboard:
 
         return self.server.recv(1024)
 
+    def popupClose(self):
+        """
+        close the current popup
+
+        :return: "closing popup"
+        :rtype: string
+        """
+
+        call = "close popup"
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+
 
 
 
