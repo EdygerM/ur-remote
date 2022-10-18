@@ -269,7 +269,7 @@ class Dashboard:
 
         return self.__sendCommand("safetystatus")
 
-    def UnlockProtectiveStop(self):
+    def unlockProtectiveStop(self):
         """
         Closes the current popup and unlocks protective stop. The unlock protective stop command fails if less than 5 seconds has passed since the protective stop occurred.
 
@@ -279,7 +279,68 @@ class Dashboard:
 
         return self.__sendCommand("unlock protective stop")
 
+    def closeSafetyPopup(self):
+        """
+        :return: "closing safety popup"
+        :rtype: string
+        """
 
+        return self.__sendCommand("close safety popup")
+
+    def loadInstallation(self, installationName):
+        """
+        Loads the specified installation file but does not return until the load has completed (or failed).
+        The load command fails if the associated installation requires confirmation of safety.
+        The return value will be 'Failed to load installation'.
+
+        :param installationNameName: name of the .installation program (without the .installation)
+        :type installationNameName: string
+
+        :return: loading status
+        :rtype: string
+        """
+
+        return self.__sendCommand("load " + installationNameName + ".installation\n")
+
+    def restartSafety(self):
+        """
+        Used when robot gets a safety fault or violation to restart the safety.
+        After safety has been rebooted the robot will be in Power Off.
+        IMPORTANT: You should always ensure it is okay to restart the system.
+        It is highly recommended to check the error log before using this command (either via PolyScope or e.g. ssh connection).
+
+        :return: "Restarting status"
+        :rtype: string
+        """
+
+        return self.__sendCommand("restart safety")
+
+    def isInRemoteControl(self):
+        """
+        :return: remote control status
+        :rtype: boolean
+        """
+
+        if self.__sendCommand("is in remote control") == "true":
+            return True
+        else:
+            return False
+
+    def getSerialNumber(self):
+        """
+        :return: Serial number like "20175599999"
+        :rtype: string
+        """
+
+        return self.__sendCommand("get serial number")
+
+    def getRobotModel(self):
+        """
+        :return: UR3, UR5, UR10, UR16
+        :rtype: string
+        """
+
+        return self.__sendCommand("get robot model")
 
 
 
