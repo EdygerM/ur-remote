@@ -185,6 +185,39 @@ class Dashboard:
 
         return self.server.recv(1024)
 
+    def addToLog(self, logMessage):
+        """
+        Adds log-message to the Log history
+
+        :param logMessage: Message displayed in the popup window
+        :type logMessage: string
+
+        :return: "Added log message" Or "No log message to add"
+        :rtype: string
+        """
+
+        call = "addToLog " + logMessage
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+    def isProgramSaved(self):
+        """
+        Returns the save state of the active program
+
+        :return: save state
+        :rtype: boolean
+        """
+
+        call = "isProgramSaved"
+        self.server.sendall(call.encode())
+        message = self.server.recv(1024)
+
+        if message.decode()[0:4] == "true":
+            return True
+        else:
+            return False
+
 
 
 
