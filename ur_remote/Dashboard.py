@@ -359,7 +359,7 @@ class Dashboard:
 
         return self.__sendCommand("generate flight report " + reportType)
 
-    def generateFlightReport(self, directoryPath):
+    def generateSupportFile(self, directoryPath):
         """
         Generates a flight report of the type "System" and creates a compressed collection of all the existing flight reports on the robot along with the generated flight report.
         Result file ur_[robot serial number]_YYYY-MM-DD_HHMM-SS.zip is saved inside <Directory path>
@@ -372,7 +372,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("generate support file " + reportType)
+        return self.__sendCommand("generate support file " + directoryPath)
 
 
 
