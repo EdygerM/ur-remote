@@ -342,6 +342,38 @@ class Dashboard:
 
         return self.__sendCommand("get robot model")
 
+    def generateFlightReport(self, reportType):
+        """
+        Triggers a Flight Report of the following type:
+        • Controller - report with information specific for diagnosing controller errors. For example, in case of protective stops, faults or violations.
+        • Software - report with information specific for polyscope software failures.
+        • System - report with information about robot configuration, programs, installations, etc.
+        It is required to wait at least 30 seconds between triggering software or controller reports.
+
+        :param reportType: controller, software, system
+        :type reportType: string
+
+        :return: On success report id is printed. Error Message on a failure. Command can take few minutes to complete.
+        :rtype: string
+        """
+
+        return self.__sendCommand("generate flight report " + reportType)
+
+    def generateFlightReport(self, directoryPath):
+        """
+        Generates a flight report of the type "System" and creates a compressed collection of all the existing flight reports on the robot along with the generated flight report.
+        Result file ur_[robot serial number]_YYYY-MM-DD_HHMM-SS.zip is saved inside <Directory path>
+
+        :param directoryPath:
+        :type directoryPath: string
+
+        :return: On success "Completed successfully: <result file name>" is printed otherwise an error message with possible cause of the error is shown.
+        Command can take up to 10 minutes to complete.
+        :rtype: string
+        """
+
+        return self.__sendCommand("generate support file " + reportType)
+
 
 
 
