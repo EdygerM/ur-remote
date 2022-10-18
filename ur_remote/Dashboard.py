@@ -261,6 +261,14 @@ class Dashboard:
 
         return self.__sendCommand("brake release")
 
+    def getSafetyStatus(self):
+        """
+        :return: NORMAL, REDUCED PROTECTIVE_STOP, RECOVERY SAFEGUARD_STOP, SYSTEM_EMERGENCY_STOP, ROBOT_EMERGENCY_STOP, VIOLATION, FAULT, AUTOMATIC_MODE_SAFEGUARD_STOP, SYSTEM_THREE_POSITION_ENABLING_STOP
+        :rtype: string
+        """
+
+        return self.__sendCommand("safetystatus")
+
 
 
 
