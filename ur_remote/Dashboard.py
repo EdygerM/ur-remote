@@ -127,11 +127,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "running"
-        self.server.sendall(call.encode())
-        message = self.server.recv(1024)
-
-        return message.decode().replace('Robotmode:', '')
+        return self.__sendCommand("robotmode").replace('Robotmode:', '')
 
     def getLoadedProgram(self):
         """
@@ -141,13 +137,12 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "get loaded program"
-        self.server.sendall(call.encode())
-        message = self.server.recv(1024)
-        if message.decode() == "No program loaded":
-            return message.decode()
+        message = self.__sendCommand("get loaded program")
+
+        if message == "No program loaded":
+            return message
         else:
-            return message.decode().replace('Loaded program:', '')
+            return message.replace('Loaded program:', '')
 
     def popupDisplay(self, popupMessage):
         """
@@ -160,10 +155,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "popup " + popupMessage
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("popup " + popupMessage)
 
     def popupClose(self):
         """
@@ -173,10 +165,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "close popup"
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        self.__sendCommand("close popup")
 
     def addToLog(self, logMessage):
         """
@@ -189,10 +178,7 @@ class Dashboard:
         :rtype: string
         """
 
-        call = "addToLog " + logMessage
-        self.server.sendall(call.encode())
-
-        return self.server.recv(1024)
+        return self.__sendCommand("addToLog " + logMessage)
 
     def isProgramSaved(self):
         """
@@ -202,11 +188,7 @@ class Dashboard:
         :rtype: boolean
         """
 
-        call = "isProgramSaved"
-        self.server.sendall(call.encode())
-        message = self.server.recv(1024)
-
-        if message.decode()[0:4] == "true":
+        if self.__sendCommand("isProgramSaved")[0:4] == "true":
             return True
         else:
             return False
