@@ -138,6 +138,42 @@ class Dashboard:
         self.server.sendall(call.encode())
         message = self.server.recv(1024)
 
-        robotMode = message.decode().replace('Robotmode:', '')
+        return message.decode().replace('Robotmode:', '')
 
-        return robotMode
+    def getLoadedProgram(self):
+        """
+        Which program is loaded
+
+        :return: path to loaded program file
+        :rtype: string
+        """
+
+        call = "get loaded program"
+        self.server.sendall(call.encode())
+        message = self.server.recv(1024)
+        if message.decode() == "No program loaded":
+            return message.decode()
+        else:
+            return message.decode().replace('Loaded program:', '')
+
+    def popupDisplay(self, popupMessage):
+        """
+        Display a popup message on the Teach pendant. The popup-text will be translated to the selected language, if the text exists in the language file
+
+        :param popupMessage: Message displayed in the popup window
+        :type popupMessage: string
+
+        :return: "showing popup"
+        :rtype: string
+        """
+
+        call = "popup " + popupMessage
+        self.server.sendall(call.encode())
+
+        return self.server.recv(1024)
+
+
+
+
+
+
