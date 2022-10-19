@@ -28,7 +28,7 @@ class Dashboard:
         :return: The message sent by the client depending on the command
         :rtype: string
         """
-        self.server.send(command.encode())
+        self.server.sendall((command + '\n').encode())
 
         time.sleep(1)
 
