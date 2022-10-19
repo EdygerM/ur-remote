@@ -31,9 +31,7 @@ class Primary:
         :rtype: string
         """
 
-        self.server.connect((self.ipAddress, PRIMARY_PORT))
-
-        return self.server.recv(1024)
+        return self.server.connect((self.ipAddress, PRIMARY_PORT))
 
     def __unpack(self, data, dataType, offset):
         unpacked_data = struct.unpack_from('!' + dataType, data, self.offset)[0]
