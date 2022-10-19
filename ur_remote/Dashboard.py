@@ -32,7 +32,7 @@ class Dashboard:
 
         time.sleep(1)
 
-        return self.server.recv(1024).decode()
+        return self.server.recv(4096).decode()
 
     def connect(self):
         """
