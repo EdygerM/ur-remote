@@ -28,7 +28,7 @@ class Dashboard:
         :rtype: string
         """
         self.server.sendall(command.encode())
-
+        print("chocapic")
         return self.server.recv(1024).decode()
 
     def connect(self):
