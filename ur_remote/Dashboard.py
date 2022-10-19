@@ -28,9 +28,8 @@ class Dashboard:
         :rtype: string
         """
         self.server.sendall(command.encode())
-        message = self.server.recv(1024)
 
-        return message.decode()
+        return self.server.recv(1024).decode()
 
     def connect(self):
         """
