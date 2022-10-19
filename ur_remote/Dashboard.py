@@ -1,4 +1,5 @@
 import socket
+import time
 
 DASHBOARD_PORT = 29999
 
@@ -28,6 +29,8 @@ class Dashboard:
         :rtype: string
         """
         self.server.sendall(command.encode())
+
+        time.sleep(1)
 
         return self.server.recv(1024).decode()
 
