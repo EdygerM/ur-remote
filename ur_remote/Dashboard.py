@@ -42,7 +42,7 @@ class Dashboard:
 
         self.server.connect((self.ipAddress, DASHBOARD_PORT))
 
-        return self.server.recv(1024)
+        return self.server.recv(1024).decode()
 
     def load(self, programName):
         """
