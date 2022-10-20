@@ -5,6 +5,7 @@ if __name__ == '__main__':
     print(robot1.Dashboard.connect())
     print(robot1.Dashboard.load("moveAToB"))
     print(robot1.Dashboard.powerOnRobotArm())
+    print(robot1.Dashboard.brakeRelease())
     print(robot1.Dashboard.play())
     print(robot1.Dashboard.isRunning())
     print(robot1.Dashboard.getRobotMode())

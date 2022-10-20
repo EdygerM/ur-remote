@@ -57,7 +57,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("load " + programName + ".urp\n")
+        return self.__sendCommand("load " + programName + ".urp")
 
     def play(self):
         """
