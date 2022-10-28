@@ -15,7 +15,7 @@ with open(path.join(HERE, 'README.md'), encoding='utf-8') as f:
 # This call to setup() does all the work
 setup(
     name="ur-remote",
-    version="0.1.1",
+    version="0.1.2",
     description="Library allowing to remote control a Universal Robot",
     long_description=long_description,
     long_description_content_type="text/markdown",

@@ -1,7 +1,19 @@
 import socket
-import time
+from enum import Enum
 
 DASHBOARD_PORT = 29999
+
+
+class RobotMode(Enum):
+    NO_CONTROLLER = 1
+    DISCONNECTED = 2
+    CONFIRM_SAFETY = 3
+    BOOTING = 4
+    POWER_OFF = 5
+    POWER_ON = 6
+    IDLE = 7
+    BACKDRIVE = 8
+    RUNNING = 9
 
 
 class Dashboard:
@@ -30,9 +42,24 @@ class Dashboard:
         """
         self.server.sendall((command + '\n').encode())
 
-        time.sleep(1)
+        message = self.server.recv(4096).decode().rstrip('\n')
+        print(message)
 
-        return self.server.recv(4096).decode()
+        return message
+
+    def __sendCommandGet(self, command):
+        """
+        Send a command to the client, then read its feedback
+
+        :param command: command sent to the Dashboard Server
+        :type command: string
+
+        :return: The message sent by the client depending on the command
+        :rtype: string
+        """
+        self.server.sendall((command + '\n').encode())
+
+        return self.server.recv(4096).decode().rstrip('\n')
 
     def connect(self):
         """
@@ -44,7 +71,10 @@ class Dashboard:
 
         self.server.connect((self.ipAddress, DASHBOARD_PORT))
 
-        return self.server.recv(1024).decode()
+        connectionStatus = self.server.recv(1024).decode().rstrip('\n')
+        print(connectionStatus)
+
+        return connectionStatus
 
     def load(self, programName):
         """
@@ -117,7 +147,7 @@ class Dashboard:
         :rtype: boolean
         """
 
-        if self.__sendCommand("running") == "Program running: true":
+        if self.__sendCommandGet("running") == "Program running: true":
             return True
         else:
             return False
@@ -128,7 +158,27 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("robotmode").replace('Robotmode:', '')
+        def switch(robotMode):
+            if robotMode == "NO_CONTROLLER":
+                return RobotMode.NO_CONTROLLER
+            if robotMode == "DISCONNECTED":
+                return RobotMode.DISCONNECTED
+            if robotMode == "CONFIRM_SAFETY":
+                return RobotMode.CONFIRM_SAFETY
+            if robotMode == "BOOTING":
+                return RobotMode.BOOTING
+            if robotMode == "POWER_OFF":
+                return RobotMode.POWER_OFF
+            if robotMode == "POWER_ON":
+                return RobotMode.POWER_ON
+            if robotMode == "IDLE":
+                return RobotMode.IDLE
+            if robotMode == "BACKDRIVE":
+                return RobotMode.BACKDRIVE
+            if robotMode == "RUNNING":
+                return RobotMode.RUNNING
+
+        return switch(self.__sendCommandGet("robotmode").replace('Robotmode: ', ''))
 
     def getLoadedProgram(self):
         """
@@ -136,7 +186,7 @@ class Dashboard:
         :rtype: string
         """
 
-        message = self.__sendCommand("get loaded program")
+        message = self.__sendCommandGet("get loaded program")
 
         if message == "No program loaded":
             return message
@@ -185,7 +235,7 @@ class Dashboard:
         :rtype: boolean
         """
 
-        if self.__sendCommand("isProgramSaved")[0:4] == "true":
+        if self.__sendCommandGet("isProgramSaved")[0:4] == "true":
             return True
         else:
             return False
@@ -196,7 +246,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("programState")
+        return self.__sendCommandGet("programState")
 
     def getPolyscopeVersion(self):
         """
@@ -204,7 +254,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("PolyscopeVersion")
+        return self.__sendCommandGet("PolyscopeVersion")
 
     def setOperationalMode(self, operationalMode):
         """
@@ -227,7 +277,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("get operational mode")
+        return self.__sendCommandGet("get operational mode")
 
     def clearOperationalMode(self):
         """
@@ -269,7 +319,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("safetystatus")
+        return self.__sendCommandGet("safetystatus")
 
     def unlockProtectiveStop(self):
         """
@@ -323,7 +373,7 @@ class Dashboard:
         :rtype: boolean
         """
 
-        if self.__sendCommand("is in remote control") == "true":
+        if self.__sendCommandGet("is in remote control") == "true":
             return True
         else:
             return False
@@ -334,7 +384,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("get serial number")
+        return self.__sendCommandGet("get serial number")
 
     def getRobotModel(self):
         """
@@ -342,7 +392,7 @@ class Dashboard:
         :rtype: string
         """
 
-        return self.__sendCommand("get robot model")
+        return self.__sendCommandGet("get robot model")
 
     def generateFlightReport(self, reportType):
         """
@@ -375,13 +425,3 @@ class Dashboard:
         """
 
         return self.__sendCommand("generate support file " + directoryPath)
-
-
-
-
-
-
-
-
-
-
