@@ -1,10 +1,16 @@
-import time
 from ur_remote.URRobot import URRobot
 
 if __name__ == '__main__':
-    robot = URRobot("192.168.0.21")
-    robot.Primary.readPort()
-    # robot.runProgram("moveAToB")
-    # robot.runProgram("moveBToC")
-    # robot.runProgram("moveCToA")
-    # robot.powerOff()
+    robotSFC = URRobot("192.168.0.21")
+    robotNMR = URRobot("192.168.0.22")
+    robotSFC.runProgram("pickSFCCircuit")
+    robotSFC.runProgram("putSFCStock")
+    robotSFC.runProgram("pickRMNStock")
+    robotSFC.runProgram("putRMNSJ")
+    robotSFC.runProgram("pickRMNSJ")
+    robotSFC.runProgram("putRMNStock")
+    robotSFC.runProgram("pickSFCStock")
+    robotSFC.runProgram("putSFCCircuit")
+
+
+

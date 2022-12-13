@@ -1,6 +1,73 @@
 from enum import Enum
+from enum import IntEnum
 
 
+class MESSAGE_TYPE(IntEnum):
+    DISCONNECT = -1
+    ROBOT_STATE = 16
+    ROBOT_MESSAGE = 20
+    HMC_MESSAGE = 22
+    MODBUS_INFO_MESSAGE = 5
+    SAFETY_SETUP_BROADCAST_MESSAGE = 23
+    SAFETY_COMPLIANCE_TOLERANCES_MESSAGE = 24
+    PROGRAM_STATE_MESSAGE = 25
+
+
+class ROBOT_STATE_PACKAGE_TYPE(IntEnum):
+    ROBOT_MODE_DATA = 0
+    JOINT_DATA = 1
+    TOOL_DATA = 2
+    MASTERBOARD_DATA = 3
+    CARTESIAN_INFO = 4
+    KINEMATICS_INFO = 5
+    CONFIGURATION_DATA = 6
+    FORCE_MODE_DATA = 7
+    ADDITIONAL_INFO = 8
+    NEEDED_FOR_CALIB_DATA = 9  # Internally used only
+    SAFETY_DATA = 10  # Internally used only
+    TOOL_COMM_INFO = 11
+    TOOL_MODE_INFO = 12
+    SINGULARITY_INFO = 13
+
+class DataFormat(str, Enum):
+    """
+    Based on https://docs.python.org/3/library/struct.html
+    """
+    CHAR = 'c'
+    SIGNED_CHAR = 'b'
+    UNSIGNED_CHAR = 'B'
+    BOOLEAN = '?'
+    SHORT = 'h'
+    UNSIGNED_SHORT = 'H'
+    INT = 'i'
+    UNSIGNED_INT = 'I'
+    LONG = 'l'
+    UNSIGNED_LONG = 'L'
+    LONG_LONG = 'q'
+    UNSIGNED_LONG_LONG = 'Q'
+    FLOAT = 'f'
+    DOUBLE = 'd'
+    STRING = 's'
+
+
+class SizeFormat(IntEnum):
+    CHAR = 1
+    SIGNED_CHAR = 1
+    UNSIGNED_CHAR = 1
+    BOOLEAN = 1
+    SHORT = 2
+    UNSIGNED_SHORT = 2
+    INT = 4
+    UNSIGNED_INT = 4
+    LONG = 4
+    UNSIGNED_LONG = 4
+    LONG_LONG = 8
+    UNSIGNED_LONG_LONG = 8
+    FLOAT = 4
+    DOUBLE = 8
+
+
+"""
 class ControlModes(Enum):
     CONTROL_MODE_POSITION = 0
     CONTROL_MODE_TEACH = 1
@@ -86,17 +153,6 @@ class MessageSource(Enum):
     MESSAGE_SOURCE_RTDE = 8
 
 
-class MessageType(Enum):
-    MESSAGE_TYPE_DISCONNECT = -1
-    MESSAGE_TYPE_ROBOT_STATE = 16
-    MESSAGE_TYPE_ROBOT_MESSAGE = 20
-    MESSAGE_TYPE_HMC_MESSAGE = 22
-    MESSAGE_TYPE_MODBUS_INFO_MESSAGE = 5
-    MESSAGE_TYPE_SAFETY_SETUP_BROADCAST_MESSAGE = 23
-    MESSAGE_TYPE_SAFETY_COMPLIANCE_TOLERANCES_MESSAGE = 24
-    MESSAGE_TYPE_PROGRAM_STATE_MESSAGE = 25
-
-
 class SafetyMode(Enum):
     SAFETY_MODE_UNDEFINED_SAFETY_MODE = 11
     SAFETY_MODE_VALIDATE_JOINT_ID = 10
@@ -150,41 +206,4 @@ class RequestValue(Enum):
     REQUEST_VALUE_TYPE_WAYPOINT = 6  # UNUSED
     REQUEST_VALUE_TYPE_EXPRESSION = 7  # UNUSED
     REQUEST_VALUE_TYPE_NONE = 8
-
-
-class DataFormat(Enum):
-    """
-    Based on https://docs.python.org/3/library/struct.html
-    """
-    CHAR = 'c'
-    SIGNED_CHAR = 'b'
-    UNSIGNED_CHAR = 'B'
-    BOOLEAN = '?'
-    SHORT = 'h'
-    UNSIGNED_SHORT = 'H'
-    INT = 'i'
-    UNSIGNED_INT = 'I'
-    LONG = 'l'
-    UNSIGNED_LONG = 'L'
-    LONG_LONG = 'q'
-    UNSIGNED_LONG_LONG = 'Q'
-    FLOAT = 'f'
-    DOUBLE = 'd'
-    STRING = 's'
-
-
-class SizeFormat(Enum):
-    CHAR = 1
-    SIGNED_CHAR = 1
-    UNSIGNED_CHAR = 1
-    BOOLEAN = 1
-    SHORT = 2
-    UNSIGNED_SHORT = 2
-    INT = 4
-    UNSIGNED_INT = 4
-    LONG = 4
-    UNSIGNED_LONG = 4
-    LONG_LONG = 8
-    UNSIGNED_LONG_LONG = 8
-    FLOAT = 4
-    DOUBLE = 8
+"""
