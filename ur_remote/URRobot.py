@@ -9,7 +9,7 @@ class URRobot:
 
     UR robot needs to be set in remote mode on the polyscope application.
 
-    :param ipAddress: the ip address of the Universal Robot.
+    :param ipAddress: the ip address of the Universal Robot..
     :type ipAddress: string
     """
 
